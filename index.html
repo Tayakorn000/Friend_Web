@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เป็นแฟนกันไหมครับ?</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600;800&display=swap');
+
+        body {
+            font-family: 'Kanit', sans-serif;
+            overflow: hidden;
+        }
+
+        .hidden-section {
+            display: none !important;
+        }
+
+        @keyframes ping-slow {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            75%,
+            100% {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+
+        .animate-ping-slow {
+            animation: ping-slow 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+        }
+    </style>
+</head>
+
+<body
+    class="bg-rose-50 min-h-screen flex flex-col items-center justify-center p-4 relative transition-colors duration-500">
+
+    <!-- Screen 1: Asking -->
+    <div id="askScreen"
+        class="z-10 text-center space-y-8 p-10 bg-white/80 backdrop-blur-md rounded-3xl shadow-2xl border border-rose-100 max-w-lg w-full relative">
+        <div class="relative w-48 h-48 mx-auto">
+            <img src="https://media.tenor.com/YkGFt_3j8fsAAAAC/boba.gif" alt="Cute Boba Sticker"
+                class="object-contain w-full h-full drop-shadow-md" />
+        </div>
+
+        <h1 class="text-3xl md:text-4xl font-extrabold text-rose-600 drop-shadow-sm">เป็นแฟนกันไหมครับ?</h1>
+        <p class="text-rose-400 text-lg">เค้าสัญญาว่าจะทำให้เธอมีความสุขมากๆ</p>
+
+        <div class="flex flex-row items-center justify-center gap-6 mt-8 p-4 relative min-h-[100px]"
+            id="buttonsContainer">
+            <button id="yesBtn"
+                class="px-8 py-4 bg-rose-500 hover:bg-rose-600 text-white font-bold rounded-full shadow-lg hover:shadow-xl transform hover:scale-110 transition-all text-xl md:text-2xl z-20">Yes</button>
+            <button id="noBtn"
+                class="px-8 py-4 bg-gray-200 text-gray-700 font-bold rounded-full shadow transition-all text-xl md:text-2xl relative">!No</button>
+        </div>
+    </div>
+
+    <!-- Screen 2: Accepted -->
+    <div id="successScreen"
+        class="z-10 text-center space-y-6 bg-white/70 backdrop-blur-lg p-10 rounded-3xl shadow-2xl border border-pink-200 hidden-section">
+        <h1 class="text-4xl md:text-6xl font-extrabold text-pink-600">เป็นแฟนกันแล้วนะ</h1>
+        <p class="text-xl md:text-2xl text-pink-500 font-medium">เค้ารักเธอนะครับ❤️</p>
+        <div class="relative w-64 h-64 mx-auto rounded-xl overflow-hidden shadow-lg mt-4">
+            <img src="https://media.tenor.com/gUiu1zyxfzYAAAAi/bear-kiss-bear-kisses.gif" alt="Cute bear kiss"
+                class="object-cover w-full h-full" />
+        </div>
+    </div>
+
+    <!-- Background Elements -->
+    <div class="absolute top-10 left-10 text-4xl text-pink-300 animate-pulse" id="bg1">💖</div>
+    <div class="absolute bottom-20 right-20 text-5xl text-rose-300 animate-pulse delay-150" id="bg2">💞</div>
+    <div class="absolute top-40 right-10 text-3xl text-red-300 animate-bounce" id="bg3">💕</div>
+
+    <script>
+        const askScreen = document.getElementById('askScreen');
+        const successScreen = document.getElementById('successScreen');
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const body = document.body;
+
+        const moveNoButton = (e) => {
+            // Prevent default behavior if touched to avoid clicking
+            if (e && e.type === 'touchstart') {
+                e.preventDefault();
+            }
+            noBtn.style.position = 'fixed';
+            const x = Math.floor(Math.random() * 80) + 10;
+            const y = Math.floor(Math.random() * 80) + 10;
+            noBtn.style.top = `${y}%`;
+            noBtn.style.left = `${x}%`;
+            noBtn.style.transform = 'translate(-50%, -50%)';
+            noBtn.style.zIndex = '50';
+        };
+
+        noBtn.addEventListener('mouseenter', moveNoButton);
+        noBtn.addEventListener('click', moveNoButton);
+        noBtn.addEventListener('touchstart', moveNoButton, { passive: false });
+
+        yesBtn.addEventListener('click', () => {
+            askScreen.classList.add('hidden-section');
+            successScreen.classList.remove('hidden-section');
+            successScreen.classList.add('flex', 'flex-col');
+            body.classList.remove('bg-rose-50');
+            body.classList.add('bg-pink-100');
+
+            // Big heart in background
+            const bigHeart = document.createElement('div');
+            bigHeart.className = 'absolute inset-0 pointer-events-none flex justify-center items-center opacity-30';
+            bigHeart.innerHTML = '<div class="text-9xl animate-ping-slow">❤️</div>';
+            body.appendChild(bigHeart);
+        });
+    </script>
+</body>
+
+</html>
